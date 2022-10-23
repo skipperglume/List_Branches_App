@@ -47,23 +47,36 @@ void Response_vs_E_true::Main_Func(std::string name_of_file){
     Print_Value("Branches for TTrees: ");
     for(int i = 0 ; i < TTree_vector.size();i++){
         TKey* object = TTree_vector.at(i);
-        std::string line = std::to_string(i)+ " "+std::string(object->ReadObj()->GetName());
+        int N_branches = ((TTree*)object->ReadObj())->GetNbranches() ;
+        int N_Entries = ((TTree*)object->ReadObj())->GetEntries() ;
+        std::string line = std::to_string(i)+ " "+std::string(object->ReadObj()->GetName())+" Entries: "+std::to_string(N_Entries);
         std::string line2 = std::string(object->GetName());
         Print_Value(line);
         // Print_Value(line2);
         // TObjArray * B_List = ((TTree*)object)->GetListOfBranches();
         // Print_Value(  ((TTree*)object)->ReadObj()->GetNbranches() );
         // Print_Value(  ((TTree*)object->ReadObj())->GetEntries() );
-        int N_branches = ((TTree*)object->ReadObj())->GetNbranches() ;
+        
         TObjArray * B_List = ((TTree*)object->ReadObj())->GetListOfBranches();
+        TObjArray *leaves = ((TTree*)object->ReadObj())->GetListOfLeaves();
+
+
         for (int j =0 ; j < N_branches; j++){
-            std::string branch_line = "  "+std::to_string(j)+": "+std::string( B_List->At(j)->GetName());
+            TLeafObject * leaf = (TLeafObject*) (leaves->At(j));
+            std::string branch_line = "  "+std::to_string(j)+": "+std::string( B_List->At(j)->GetName())+" : "+ std::string(leaf->GetTypeName());
             Print_Value(branch_line);
+            
+            // std::cout<< ((TBranch*)(B_List->At(j)))->Class_Name()<<<<std::endl;           
+            
+            // TLeaf leaf = (TLeaf)(leaves->At(1));
+            // TLeafObject leafobj;
+            // leafobj = (TLeafObject)leaf;
+            // Print_Value(leaf->GetTypeName());
         }
         // Print_Value(  ((TTree*)object->ReadObj())->GetListOfBranches() );
         // Print_Value(  ((TTree*)object)->GetListOfBranches()->GetName() );
         
-    }
+    }  
 
     return ;
 }

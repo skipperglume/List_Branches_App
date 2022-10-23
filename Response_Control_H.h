@@ -5,7 +5,7 @@
 #include <vector>
 #include <fstream>
 
-
+#include "TLeafObject.h"
 #include "TTree.h"
 #include "TH1F.h"
 #include "TProfile.h"
@@ -36,7 +36,8 @@ public:
     char * FSTCA(std::string & name);
     char * From_String_To_Char_Array( std::string & name);
     bool is_file_exist(const char *fileName);
-    template <typename T> void Print_Value(T a);
+    // template <typename T> void Print_Value(T a);
+    template <typename T> void Print_Value(T a, int new_lines = 1 );
 };
 Response_vs_E_true::Response_vs_E_true(){
     
@@ -60,8 +61,17 @@ bool Response_vs_E_true::is_file_exist(const char *fileName)
     bool exists = infile.good();
     return exists;
 }
-template <typename T>  void  Response_vs_E_true::Print_Value(T a){
-    std::cout<<a<<'\n';
+// template <typename T>  void  Response_vs_E_true::Print_Value(T a){
+//     std::cout<<a<<'\n';
+//     return;
+// }
+template <typename T>  void  Response_vs_E_true::Print_Value(T a, int new_lines ){
+    
+    std::string n_l = "";
+    for(int i =0 ; i< new_lines ; i ++)
+        n_l+='\n';
+    
+    std::cout<<a<<n_l;
     return;
 }
 #endif
