@@ -7,7 +7,22 @@ void DisplayRootFile::Main_Func(std::string name_of_file){
     TFile * file = new TFile(FSTCA(name_of_file), "read");
     TList * f_objects = file->GetListOfKeys();  
     int N_objects = file->GetNkeys();
+    availableKeys.clear();
+
+    TObject * content= file->GetListOfKeys()->First();
+    std::vector<TString> objectNames;
+    // std::cout<<"List all file contents:"<<"\n";
+    while (content != f_objects->Last()){
+        // std::cout<<" "<<content->GetName()<<"\n";
+        TString objectNameTString(content->GetName());
+        objectNames.push_back(objectNameTString);
+        content = f_objects->After(content);
+    }
     
+
+    sfor 
+
+
     // Print_Value(N_objects);
     std::vector <TKey*> TTree_vector;
     for(int i = 0 ; i < N_objects;i++){
@@ -60,28 +75,42 @@ void DisplayRootFile::Main_Func(std::string name_of_file){
     return ;
 }
 
-int main ( int argc ,char* argv[] ){
-    // std::cout << "+I+\n";
+DisplayRootFile::DisplayRootFile(){
 
-    // path_to_files TTree_name increment Step eta_min eta_max LegendName
-    // std::string input = argv[3];
-    // std::string input_1 = argv[1];
-    // std::string input_2 = argv[2];
-    // int increment = std::stoi(argv[3]);
-    // std::string input_3 = argv[4];
-    // float upper_limit = std::stof(argv[5]);
-    // float lower_limit = std::stof(argv[6]);
-    // std::string input_4 = argv[7];
-
-    // std::cout<<argc <<" \n";
+}
+// DisplayRootFile::~DisplayRootFile() {
+//     std::coud<<"End of display.\n";
+// }
+char * DisplayRootFile::From_String_To_Char_Array( std::string & name){
+    char * char_name[500];
+    for (int i =0; i < name.size();i++){
+        //cout<<name.at(i);
+        char_name[i] = & name.at(i);
+    }
     
+    return (*char_name);
+}
+char * DisplayRootFile::FSTCA(std::string & name){
+    return From_String_To_Char_Array(  name);
+}
+bool DisplayRootFile::is_file_exist(const char *fileName)
+{
+    std::ifstream infile(fileName);
+    // if (std::filesystem::exists(reweightHistFile.Data())){
 
-    std::string name_of_file = argv[1];
-    DisplayRootFile * h = new DisplayRootFile( );
-    h->Main_Func(name_of_file);
+    bool exists = infile.good();
+    return exists;
+}
+// template <typename T>  void  DisplayRootFile::Print_Value(T a){
+//     std::cout<<a<<'\n';
+//     return;
+// }
+template <typename T>  void  DisplayRootFile::Print_Value(T a, int new_lines ){
     
-    delete h;
-    /**/
-    // std::cout<<__cplusplus<<std::endl;
-    return 0;
+    std::string n_l = "";
+    for(int i =0 ; i< new_lines ; i ++)
+        n_l+='\n';
+    
+    std::cout<<a<<n_l;
+    return;
 }
