@@ -1,30 +1,8 @@
 #include "Response_Control_H.h"
-TChain* Response_vs_E_true::Set_Up_TChain(std::string path_to_files,std::string TTree_name){
-
-    
-    TChain * ch_p= new TChain(FSTCA(TTree_name));
-    std::string str;
-    std::ifstream infile ;
-    // vector <string> paths_to_ttrees ;
-    infile.open(FSTCA(path_to_files));
-    while(!infile.eof()){
-        getline(infile,str);
-        // paths_to_ttrees.push_back(str);
-        if(is_file_exist(FSTCA(str))){
-            std::cout<<"FILE EXISTS: "<<str<<"\n\n";
-            ch_p->Add(FSTCA(str));
-        }
-        else { std::cout<<"ERROR FILE DOES NOT EXIST: "<<str<<"\n\n"; 
-        }
-            
-    }
-    infile.close();
-    return ch_p;
-}
 //  g++ -o ListB Response_Control.cxx `root-config --cflags --glibs`
 //  ./ListB group.perf-jets.30761817._000001.tree.root
 //  g++ -o ListB Response_Control.cxx `root-config --cflags --glibs`  &&  ./ListB group.perf-jets.30761817._000001.tree.root  
-void Response_vs_E_true::Main_Func(std::string name_of_file){
+void DisplayRootFile::Main_Func(std::string name_of_file){
 
     TFile * file = new TFile(FSTCA(name_of_file), "read");
     TList * f_objects = file->GetListOfKeys();  
@@ -99,7 +77,7 @@ int main ( int argc ,char* argv[] ){
     
 
     std::string name_of_file = argv[1];
-    Response_vs_E_true * h = new Response_vs_E_true( );
+    DisplayRootFile * h = new DisplayRootFile( );
     h->Main_Func(name_of_file);
     
     delete h;

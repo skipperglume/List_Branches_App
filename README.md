@@ -1,11 +1,12 @@
 Compile the cpp code with root libs via line:
 g++ -o ListB.o Response_Control.cxx `root-config --cflags --glibs`
 
-Run the code with:
-./ListB PATH_TO_ROOT_FILE
+Run the code with command:
+./ListB.o PATH_TO_ROOT_FILE
+
 
 Test root file:
-/eos/user/d/dtimoshy/MC23_CSSKUFO/MC23c/MC23c_801165/__reweighted__user.dtimoshy.35492237._000009.tree.root
+./ListB.o /eos/user/d/dtimoshy/MC23_CSSKUFO/MC23c/MC23c_801165/__reweighted__user.dtimoshy.35492237._000009.tree.root
 
 Code to install in .bashrc (or other shell profile)
 PATH_TO_LISTB_CODE - is directory where you cloned code from git
