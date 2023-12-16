@@ -1,8 +1,11 @@
 Compile the cpp code with root libs via line:
-g++ -o ListB Response_Control.cxx `root-config --cflags --glibs`
+g++ -o ListB.o Response_Control.cxx `root-config --cflags --glibs`
 
 Run the code with:
 ./ListB PATH_TO_ROOT_FILE
+
+Test root file:
+/eos/user/d/dtimoshy/MC23_CSSKUFO/MC23c/MC23c_801165/__reweighted__user.dtimoshy.35492237._000009.tree.root
 
 Code to install in .bashrc (or other shell profile)
 PATH_TO_LISTB_CODE - is directory where you cloned code from git
@@ -19,13 +22,13 @@ function ListT(){
     # fi
     
     
-    if [[ -f "${PATH_TO_LISTB_CODE}ListB" ]]; then
+    if [[ -f "${PATH_TO_LISTB_CODE}ListB.o" ]]; then
         
         ${PATH_TO_LISTB_CODE}ListB $1
         # echo "g++ is NOT NEEDED"
     else 
         cd $PATH_TO_LISTB_CODE
-        g++ -o ListB Response_Control.cxx `root-config --cflags --glibs`
+        g++ -o ListB.o Response_Control.cxx `root-config --cflags --glibs`
         cd -
         ${PATH_TO_LISTB_CODE}ListB $1
         # echo "g++ is NEEDED"
