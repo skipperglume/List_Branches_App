@@ -2,25 +2,87 @@
 //  g++ -o ListB Response_Control.cxx `root-config --cflags --glibs`
 //  ./ListB group.perf-jets.30761817._000001.tree.root
 //  g++ -o ListB Response_Control.cxx `root-config --cflags --glibs`  &&  ./ListB group.perf-jets.30761817._000001.tree.root  
+
+void DisplayRootFile::recursiveDisplayDirectoryFile(const TDirectoryFile & tdirfile, const Int_t layerDepth = 1){
+    return;
+    std::cout<<"Sub directory: "<<tdirfile.GetName()<<'\n';
+    TList * f_objects = tdirfile.GetListOfKeys();
+    TObject * content= tdirfile.GetListOfKeys()->First();
+    TObject * foundObject;
+    tdirfile.Print();
+    tdirfile.Print();
+    tdirfile.Print();
+    tdirfile.Print();
+    while (content != f_objects->Last()){
+        std::cout<<" "<<content->GetName()<<' '<<content->ClassName()<<' '<<"\n";
+        // std::cout<<" "<<content->GetName()<<' '<<content->Class_Name()<<' '<<"\n";
+        // content->Print();
+        compareToConst = content->GetName();
+        foundObject = tdirfile.FindObject(compareToConst.Data());
+        if (foundObject)
+            std::cout<<" "<<foundObject->GetName()<<' '<<foundObject->ClassName()<<' '<<"\n";
+        else
+            std::cout<<"Not found: "<<compareToConst.Data()<<"\n";
+        // recursiveDisplayDirectoryFile(*(TDirectoryFile*)content, layerDepth+1);
+        // TString objectNameTString(content->GetName());
+        // availableKeys.push_back(objectNameTString);
+        content = f_objects->After(content);
+        std::cout<< (long long uint )content<<' '<< (long long uint )f_objects->Last()<<'\n';
+    }
+
+    return;
+}
+
+void DisplayRootFile::fillInfo(const TString & fileName){
+    availableKeys.clear();
+
+    std::unique_ptr<TFile> filePtr = std::make_unique<TFile>(fileName.Data(), "read");
+    TList * objectsList = filePtr->GetListOfKeys();
+    
+
+    const TObject * objIter = nullptr;
+    for(objIter= (TObject *)objectsList->First(); objIter != objectsList->Last(); objIter=objIter){
+        compareToConst = objIter->GetName();
+        availableKeys.push_back(compareToConst);
+        std::cout<<" "<<objIter->GetName()<<" "<<objIter->ClassName()<< " "<<filePtr->Get(objIter->GetName())->ClassName() <<"\n";
+        objIter = objectsList->After(objIter);
+
+    }
+    if (objIter){
+        std::cout<<" "<<objIter->GetName()<<" "<<objIter->ClassName()<< " "<<filePtr->Get(objIter->GetName())->ClassName() <<"\n";
+        compareToConst = objIter->GetName();
+        availableKeys.push_back(compareToConst);
+        std::cout<< filePtr->Get(objIter->GetName())->ClassName()<<'\n';
+    }
+    if( !(objectsList->First())->IsEqual((objectsList->Last())) ){
+        std::cout<<"kek"<<'\n';
+    }
+    // do{
+
+    // }
+    // std::cout<< sizeof(*objectsList) / sizeof(*(objectsList->First()))<<'\n';
+
+    std::cout<<"Total size is: "<< availableKeys.size()<<'\n';
+    uint countObjects = 0;
+    std::for_each(availableKeys.begin(), availableKeys.end(),
+    [&countObjects](const TString & strIter){std::cout<<"  "<<++countObjects<<' '<< strIter.Data()<<'\n';});
+
+    // void* objPtr = filePtr->Get(availableKeys[0]);
+    // std::cout<< ((TObject*)objPtr)->ClassName()<<'\n';
+    // compareToConst = (((TObject*)objPtr)->ClassName());
+    // if ( !compareToConst.CompareTo("TDirectoryFile")){
+    //     std::cout<<"found a dir\n";
+    //     recursiveDisplayDirectoryFile(*(TDirectoryFile*) objPtr);
+    // }
+    return;
+}
 void DisplayRootFile::Main_Func(std::string name_of_file){
 
     TFile * file = new TFile(FSTCA(name_of_file), "read");
-    TList * f_objects = file->GetListOfKeys();  
+    TList * f_objects = file->GetListOfKeys();
     int N_objects = file->GetNkeys();
-    availableKeys.clear();
 
-    TObject * content= file->GetListOfKeys()->First();
-    std::vector<TString> objectNames;
     // std::cout<<"List all file contents:"<<"\n";
-    while (content != f_objects->Last()){
-        // std::cout<<" "<<content->GetName()<<"\n";
-        TString objectNameTString(content->GetName());
-        objectNames.push_back(objectNameTString);
-        content = f_objects->After(content);
-    }
-    
-
-    sfor 
 
 
     // Print_Value(N_objects);

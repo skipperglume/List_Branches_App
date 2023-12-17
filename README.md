@@ -6,7 +6,7 @@ Run the code with command:
 
 
 Test root file:
-./ListB.o /eos/user/d/dtimoshy/MC23_CSSKUFO/MC23c/MC23c_801165/__reweighted__user.dtimoshy.35492237._000009.tree.root
+./Dsply /eos/user/d/dtimoshy/MC23_CSSKUFO/MC23c/MC23c_801165/__reweighted__user.dtimoshy.35492237._000009.tree.root
 
 Code to install in .bashrc (or other shell profile)
 PATH_TO_LISTB_CODE - is directory where you cloned code from git
